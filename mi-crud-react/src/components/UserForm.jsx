@@ -17,12 +17,7 @@ function UserForm({onSubmit}){
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (typeof onSubmit === "function") {
-            onSubmit(formulario);
-        } else {
-            console.warn("UserForm: onSubmit prop is not a function", onSubmit);
-        }
-
+        onSubmit(formulario);
         setFormulario({
             name:'',
             email:'',

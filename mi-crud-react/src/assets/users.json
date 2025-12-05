@@ -1,4 +1,5 @@
 [
-    { "id": 1, "name": "Jose", "email": "jose.velez@gmail.com", "city": "Bogotá" },
-    { "id": 2, "name": "Juan", "email": "juan.velas@gmail.com", "city": "Cali" }
+    { "id": 1, "name": "Jose", "email": "jose.velez@gmail.com", "password": "1234" },
+
+    { "id": 2, "name": "Juan", "email": "juan.velas@gmail.com", "password": "123" }
 ]

@@ -3,7 +3,7 @@ import { useUsers } from "../hook/UserContext";
 import { useState } from "react";
 
 
-export default function UpdateUser({onSubmit, selectedUser}) {
+export default function UpdateUser() {
   
   const { id } = useParams();
   const { users, updateUser, loading } = useUsers();
@@ -21,9 +21,8 @@ export default function UpdateUser({onSubmit, selectedUser}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(form)
-    setForm({name: "", email: "", password: ""})
-    UpdateUser(user.id, { ...form, id: user.id });
+    //onSubmit(form)
+    updateUser(user.id, { ...form, id: user.id });
   };
 
   if (!user) {
