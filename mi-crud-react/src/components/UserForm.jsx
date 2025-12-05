@@ -14,9 +14,15 @@ function UserForm({onSubmit}){
         setFormulario({...formulario, [e.target.name]:e.target.value})
     }
 
-    const handleSubmit = (e)=> {
-        e.preventDefault;
-        onSubmit(formulario);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (typeof onSubmit === "function") {
+            onSubmit(formulario);
+        } else {
+            console.warn("UserForm: onSubmit prop is not a function", onSubmit);
+        }
+
         setFormulario({
             name:'',
             email:'',
@@ -39,7 +45,7 @@ function UserForm({onSubmit}){
         <label htmlFor="">
             <input  name="password" type="text" placeholder="Contrasena" value={formulario.password} onChange={handleChange} required/>
         </label>
-        <button type="submit">Guardar</button>
+        <button type="submit"> Gurdar</button>
         </form>
         </>
     )

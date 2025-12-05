@@ -1,6 +1,47 @@
 // src/services/api.js
 import axios from "axios";
 
+const API_URL = 'http://localhost:8080/api/users';
+
+export async function getUsers() {
+  const res = await fetch(API_URL);
+  return res.json();
+}
+
+export async function createUser(user) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user)
+  });
+  return res.json();
+}
+
+export async function updateUser(id, user) {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user)
+  });
+  return res.json();
+}
+
+export async function deleteUser(id) {
+  await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+
 await fetch("http://localhost:8080/api/users", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
@@ -9,8 +50,8 @@ await fetch("http://localhost:8080/api/users", {
     email: "juan@example.com",
     password: "123456",
   }),
-});
-
+});*/
+/*
 // Configuración base de Axios
 const api = axios.create({
   baseURL: "http://localhost:8080/api", // Ajusta según tu backend
@@ -97,5 +138,4 @@ const userService = {
     }
   },
 };
-
-export default userService;
+*/

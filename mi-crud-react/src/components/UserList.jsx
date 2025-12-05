@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import UserItem from "./UserItem";
 
-function UserList({users}) {
+function UserList({users=[]}) {
 
     useEffect(()=>{
         (
