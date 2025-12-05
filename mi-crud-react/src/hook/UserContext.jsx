@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import _users from "../assets/users.json";
 import CreateUser from "../pages/CreateUser";
-
+import { getUsers, createUser, updateUser, deleteUser } from '../service/api';
 
 const UserContext=createContext();
 
@@ -9,8 +9,20 @@ export function UserProvider({children}){
     const [loading, setLoading] = useState(false); 
   
 
-      const [users, setUsers] = useState(_users);
+      const [users, setUsers] = useState([]);
 
+
+  const fetchUser = async () => {
+    setLoading(true);
+    try {
+        const data = await getUsers();
+        setUsers(data);
+    }catch (error) {
+        console.error("Error fetching users:", error);
+    } finally {
+        setLoading(false);
+    }
+  };    
 
     
   const fakeDelay = async () => {
@@ -40,7 +52,7 @@ export function UserProvider({children}){
 
 
     return(
-        <UserContext.Provider value={{users, createUser, updateUser, deleteUser, loading}}>
+        <UserContext.Provider value={{users, fetchUser, createUser, updateUser, deleteUser, loading}}>
             {children}
         </UserContext.Provider>
     )

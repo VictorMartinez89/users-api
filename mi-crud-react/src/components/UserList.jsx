@@ -1,7 +1,8 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import UserItem from "./UserItem";
 
-function UserList({users=[]}) {
+function UserList({users=[], onDelete}) {
 
     useEffect(()=>{
         (
@@ -20,7 +21,7 @@ function UserList({users=[]}) {
         <>
             {
                 users.map((_user)=> (
-                    <UserItem key={_user.id} user={_user} />
+                    <UserItem key={_user.id} user={_user} onDelete={onDelete}/>
                 ))
             }
         </>
