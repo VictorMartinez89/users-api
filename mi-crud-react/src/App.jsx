@@ -5,12 +5,16 @@ import CreateUser from "./pages/CreateUser";
 import UpdateUser from "./pages/UpdateUser";
 import Footer from "./pages/Footer";
 import { useState, useEffect } from "react";
-import { getUsers, createUser, updateUser, deleteUser } from "../src/service/api";
+import {
+  getUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "../src/service/api";
 import "./App.css";
 
 function App() {
   const [users, setUsers] = useState([]);
-
 
   const loadUsers = async () => {
     const data = await getUsers();
@@ -21,30 +25,14 @@ function App() {
     loadUsers();
   }, []);
 
-  const handleCreate = async (user) => {
-    await createUser(user);
-    loadUsers();
-  };
-
-  const handleUpdate = async (user) => {
-    await updateUser(selectedUser.id, user);
-    setSelectedUser(null);
-    loadUsers();
-  };
-
-  const handleDelete = async (id) => {
-    await deleteUser(id);
-    loadUsers();
-  };
-
   return (
     <>
       <div className="m-10  flex  flex-col min-h-screen bg-emerald-700 ">
         <h1 className="flex-wrap text-emerald-100 p-6 bg-center bg-emerald-900 ">
-          Bienvenidos
+          Sistema de Gestión de Usuarios
         </h1>
         <h5 className=" text-4xl  text-white-500 bg-emerald-800 center p-3 ">
-          React with JS
+          CRUD con React + Vite + API Docker
         </h5>
 
         <section className="flex-nowrap p-8 bg-center">
@@ -53,7 +41,7 @@ function App() {
               className="rounded-md px-3 py-2 text-sm font-medium text-emerald-200 hover:bg-emerald-800/5 hover:text-white"
               to="/"
             >
-              Home
+              Inicio
             </Link>
             <Link
               className="rounded-md px-3 py-2 text-sm font-medium text-emerald-200 hover:bg-emerald-800/5 hover:text-white"
@@ -65,24 +53,22 @@ function App() {
               className="rounded-md px-3 py-2 text-sm font-medium text-emerald-200 hover:bg-emerald-800/5 hover:text-white"
               to="/create"
             >
-              Crear{" "}
+              Crear Usuario
             </Link>
           </nav>
         </section>
 
-        <div className="contain">
+        <main className="contain">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/users" element={<Users />} />
             <Route path="/create" element={<CreateUser />} />
             <Route path="/update/:id" element={<UpdateUser />} />
           </Routes>
-        </div>
+        </main>
       </div>
 
-      <section>
-        <Footer />
-      </section>
+      <Footer />
     </>
   );
 }

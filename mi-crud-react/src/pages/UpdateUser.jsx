@@ -1,21 +1,36 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useUsers } from "../hook/UserContext";
-import { useState } from "react";
-
+import UserForm from "../components/UserForm";
+import { useEffect, useState } from "react";
 
 export default function UpdateUser() {
-  
   const { id } = useParams();
-  const { users, updateUser, loading } = useUsers();
+  const navigate = useNavigate();
+  const { users, updateUser, loading, error, successMessage, fetchUsers } =
+    useUsers();
+  const [user, setUser] = useState(null);
 
-  const user = users.find((u) => u.id == id);
+  //const user = users.find((u) => u.id == id);
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
-  const [form, setForm] = useState(() => ({
+  useEffect(() => {
+    if (users.length > 0) {
+      const foundUser = users.find((u) => u.id === parseInt(id));
+      if (foundUser) {
+        setUser(foundUser);
+      }
+    }
+  }, [users, id]);
+
+  /*const [form, setForm] = useState(() => ({
     name: user?.name || "",
     email: user?.email || "",
     password: user?.password || ""
   }));
-
+*/
+  /*
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -25,50 +40,41 @@ export default function UpdateUser() {
     updateUser(user.id, { ...form, id: user.id });
   };
 
-  if (!user) {
-    return <p>Usuario no encontrado</p>;
-  }
+  */
 
-  return (
-    <>
+  const handleSubmit = async (userData) => {
+    try {
+      await updateUser(id, userData);
+      // Redirigir después de 2 segundos
+      setTimeout(() => {
+        navigate("/users");
+      }, 4000);
+    } catch (error) {
+      console.error("Error al actualizar usuario:", error);
+    }
+  };
+
+
+    return (
+      <>
+         <div className="container mx-auto px-4 py-8">
+      <h2 className="text-2xl font-bold mb-6">Editar Usuario</h2>
       
-      <h2>Editar Usuario</h2>
-      {loading ? (
-        <p>Guardando cambios...</p>
-      ) : (
-
-        
-        <form onSubmit={handleSubmit} className="flex flex-col bg-yellow-500 text-amber-200">
-          <legend>Perfil:{users.id}</legend>
-          <input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Nombre"
-            required
-            className="bg-white text-amber-200"
-          />
-          <input
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Email"
-            required
-             className="bg-white text-amber-200"
-          />
-          <input
-            name="password"
-            value={form.password}
-            type="password"
-            onChange={handleChange}
-            placeholder="Contrasena"
-            required
-             className="bg-white text-amber-200"
-          />
-
-          <button type="submit"  className="bg-yellow-500 text-amber-200">Guardar cambios</button>
-        </form>
+      {successMessage && (
+        <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+          ✅ {successMessage}
+        </div>
       )}
-    </>
-  );
+      
+          <UserForm
+            user={user}
+            onSubmit={handleSubmit}
+            loading={loading}
+            apiError={error} // Cambiado de 'error' a 'apiError'
+          />
+          </div>
+      
+      </>
+    );
+  
 }
