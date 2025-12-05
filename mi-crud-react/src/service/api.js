@@ -1,18 +1,28 @@
 // src/services/api.js
-import axios from 'axios';
+import axios from "axios";
+
+await fetch("http://localhost:8080/api/users", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name: "Juan",
+    email: "juan@example.com",
+    password: "123456",
+  }),
+});
 
 // Configuración base de Axios
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Ajusta según tu backend
+  baseURL: "http://localhost:8080/api", // Ajusta según tu backend
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Interceptor para añadir token de autenticación si existe
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,8 +38,8 @@ const userService = {
   // CREATE - Crear usuario
   createUser: async (userData) => {
     try {
-      const response = await api.post('/users', userData);
-      return response.data;
+      // const response = await api.post('/users', userData);
+      // return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
     }
@@ -38,7 +48,7 @@ const userService = {
   // READ - Obtener todos los usuarios
   getAllUsers: async (params = {}) => {
     try {
-      const response = await api.get('/users', { params });
+      const response = await api.get("/users", { params });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -78,14 +88,14 @@ const userService = {
   // Opcional: Búsqueda o filtros
   searchUsers: async (searchTerm) => {
     try {
-      const response = await api.get('/users/search', {
-        params: { q: searchTerm }
+      const response = await api.get("/users/search", {
+        params: { q: searchTerm },
       });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
     }
-  }
+  },
 };
 
 export default userService;

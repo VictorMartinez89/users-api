@@ -12,7 +12,7 @@ export default function UpdateUser() {
   const [form, setForm] = useState(() => ({
     name: user?.name || "",
     email: user?.email || "",
-    city: user?.city || "",
+    password: user?.password || "",
   }));
 
   const handleChange = (e) =>
@@ -44,7 +44,7 @@ export default function UpdateUser() {
             onChange={handleChange}
             placeholder="Nombre"
             required
-            className="bg-yellow-500 text-amber-200"
+            className="bg-white text-amber-200"
           />
           <input
             name="email"
@@ -52,15 +52,16 @@ export default function UpdateUser() {
             onChange={handleChange}
             placeholder="Email"
             required
-             className="bg-yellow-500 text-amber-200"
+             className="bg-white text-amber-200"
           />
           <input
-            name="city"
-            value={form.city}
+            name="password"
+            value={form.password}
+            type="password"
             onChange={handleChange}
-            placeholder="Ciudad"
+            placeholder="Contrasena"
             required
-             className="bg-yellow-500 text-amber-200"
+             className="bg-white text-amber-200"
           />
 
           <button type="submit"  className="bg-yellow-500 text-amber-200">Guardar cambios</button>

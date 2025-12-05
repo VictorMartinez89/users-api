@@ -7,7 +7,7 @@ function UserForm({onSubmit}){
     const[formulario, setFormulario] = useState({
         name:'',
         email:'',
-        city:''    
+        password:''    
     })
 
     const handleChange = (e)=>{
@@ -20,7 +20,7 @@ function UserForm({onSubmit}){
         setFormulario({
             name:'',
             email:'',
-            city:''
+            password:'',
         }); 
         
         
@@ -37,7 +37,7 @@ function UserForm({onSubmit}){
             <input  name="email" type="text" placeholder="Email" value={formulario.email} onChange={handleChange} required/>
         </label>
         <label htmlFor="">
-            <input  name="city" type="text" placeholder="Ciudad" value={formulario.city} onChange={handleChange} required/>
+            <input  name="password" type="text" placeholder="Contrasena" value={formulario.password} onChange={handleChange} required/>
         </label>
         <button type="submit">Guardar</button>
         </form>

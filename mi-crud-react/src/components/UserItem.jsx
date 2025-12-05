@@ -13,7 +13,7 @@ function UserItem({user}) {
             <span>
                 {user.name} <br></br> 
                 {user.email} <br></br>
-                {user.city} <br></br>
+                {user.password} <br></br>
             </span>
 
         </div>
