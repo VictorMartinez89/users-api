@@ -4,26 +4,12 @@ import Users from "./pages/Users";
 import CreateUser from "./pages/CreateUser";
 import UpdateUser from "./pages/UpdateUser";
 import Footer from "./pages/Footer";
-import { useState, useEffect } from "react";
-import {
-  getUsers,
-  createUser,
-  updateUser,
-  deleteUser,
-} from "../src/service/api";
+
+
 import "./App.css";
 
 function App() {
-  const [users, setUsers] = useState([]);
-
-  const loadUsers = async () => {
-    const data = await getUsers();
-    setUsers(data);
-  };
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
+ 
 
   return (
     <>

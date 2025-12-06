@@ -1,20 +1,31 @@
-import { useUsers } from "../hook/UserContext";
+import { useUsers } from "../hook/useUsers";
 import UserList from "../components/UserList";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function User() {
   const { users, loading, error, fetchUser, deleteUser, successMessage } =
     useUsers();
+  const [localSuccess, setLocalSuccess] = useState("");
 
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+  }, []);
+
+  useEffect(() => {
+    if (successMessage) {
+      setLocalSuccess(successMessage);
+      // Limpiar mensaje después de 3 segundos
+      const timer = setTimeout(() => {
+        setLocalSuccess("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
   const handleDelete = async (id) => {
     try {
       await deleteUser(id);
       // Recargar lista después de eliminar
-      await fetchUser();
     } catch (error) {
       console.error("Error al eliminar:", error);
     }
@@ -24,9 +35,9 @@ function User() {
     <div>
       {" "}
       <h2>Nuestros Usuarios</h2>
-      {successMessage && (
+      {localSuccess && (
         <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-          ✅ {successMessage}
+          ✅ {localSuccess}
         </div>
       )}
       {error && (
@@ -35,7 +46,14 @@ function User() {
         </div>
       )}
       {loading && <p className="text-gray-600">Cargando usuarios...</p>}
-      <UserList users={users} onDelete={handleDelete} />
+      {!loading && !error && users.length === 0 && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+          No hay usuarios registrados
+        </div>
+      )}
+      {!loading && !error && users.length > 0 && (
+        <UserList users={users} onDelete={handleDelete} />
+      )}
     </div>
   );
 }

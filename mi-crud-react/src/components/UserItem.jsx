@@ -1,4 +1,4 @@
-import { useUsers } from "../hook/UserContext";
+import { useUsers } from "../hook/useUsers";
 import { Link } from "react-router-dom";
 
 function UserItem({ user , onDelete}) {

@@ -1,15 +1,16 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import _users from "../assets/users.json";
 import { getUsers, createUser, updateUser, deleteUser } from "../service/api";
 
-const UserContext = createContext();
 
-export function UserProvider({ children }) {
+ export const useUsers = () => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+
   
-  const fetchUser = async () => {
+  const fetchUser = useCallback( async () => {
     setLoading(true);
     setError(null);
     try {
@@ -21,11 +22,11 @@ export function UserProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchUser();
   }, []);
+
+//  useEffect(() => {
+//    fetchUser();
+//  }, []);
 
   const fakeDelay = async () => {
     setLoading(true);
@@ -96,23 +97,16 @@ export function UserProvider({ children }) {
     }
   };
 
-  return (
-    <UserContext.Provider
-      value={{
+  return {
         users,
         fetchUser,
         createUser,
         updateUser,
         deleteUser,
         loading,
-        
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
-}
-
-export function useUsers() {
-  return useContext(UserContext);
+        error,
+        successMessage,
+        setError,
+        setSuccessMessage,
+      };
 }
